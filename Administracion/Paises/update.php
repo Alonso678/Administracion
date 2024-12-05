@@ -7,7 +7,7 @@ $descripcion = $_POST['descripcion'];
 $codigo = $_POST['codigo'];
 $cve_continente = $_POST['cve_continente'];
 
-$sql = "UPDATE paises SET CVE_PAIS='$cve_pais', DESCRIPCION='$descripcion', CODIGO='$codigo', CVE_CONTINENTE='$cve_continente' WHERE PAIS_KEY=$pais_key";
+$sql = "UPDATE ad_paises SET CVE_PAIS='$cve_pais', DESCRIPCION='$descripcion', CODIGO='$codigo', CVE_CONTINENTE='$cve_continente' WHERE PAIS_KEY=$pais_key";
 
 if ($conn->query($sql) === TRUE) {
     echo "País actualizado exitosamente";

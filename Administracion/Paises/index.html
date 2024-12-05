@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,19 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="bg-light">
     <div class="container">
         <h1 class="text-center my-4">Administración de Países</h1>
         <table id="countryTable" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th> <!-- Checkbox para seleccionar todos -->
-                    <th>ID</th>
+                    <td><input type="checkbox" class="select-row" data-id="data-id"></td>
+                    <!-- Checkbox para seleccionar todos -->
+                    <th>Pais</th>
                     <th>Clave</th>
-                    <th>Descripción</th>
-                    <th>Código</th>
+                    <th>Descripcion</th>
+                    <th>Codigo</th>
                     <th>Continente</th>
                 </tr>
             </thead>
@@ -27,25 +30,74 @@
         </table>
         <form id="countryForm" class="mb-4">
             <div class="form-row">
-                <div class="form-group col-md-3">
-                    <input type="text" id="cve_pais" class="form-control" placeholder="Clave del País" required>
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="text" id="descripcion" class="form-control" placeholder="Descripción" required>
-                </div>
-                <div class="form-group col-md-2">
-                    <input type="text" id="codigo" class="form-control" placeholder="Código" required>
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="text" id="cve_continente" class="form-control" placeholder="Clave del Continente" required>
-                </div>
+                <!-- Botones de acción 
+                 <div class="input-field">
+                            <label for="editClave">Clave del País</label>
+                            <input type="text" id="editClave" class="form-control" name="clave_pais" required = "true">
+                        </div>
+                        <div class="input-field">
+                            <label for="editDescripcion">Descripción</label>
+                            <input type="text" id="editDescripcion" class="form-control" name="descripcion" required = "true">
+                        </div>
+                        
+                        
+                        <div class="input-field">
+                            <label for="editCodigo">Código</label>
+                            <input type="text" id="editCodigo" class="form-control" name="codigo" required = "true">
+                        </div>
+                        
+                        <div class="input-field">
+                            <label for="editContinente">Clave del Continente</label>
+                            <input type="text" id="editContinente" class="form-control" name="cve_continente" required = "true">
+                        </div>
+                
+                -->
+
                 <div class="form-group col-md-1">
                     <!-- Botones de acción -->
-                    <button class="btn btn-warning btn-sm">Editar</button>
-                    <button class="btn btn-danger btn-sm">Eliminar</button>
-                    <button type="submit" class="btn btn-primary">Agregar</button>
+
+                    <button id="deleteSelectedBtn" class="btn btn-danger">Eliminar Seleccionados</button>
+
+                    <button class="btn btn-primary edit-btn" data-id="1" data-toggle="modal"
+                        data-target="#editModal">Agregar</button>
                 </div>
             </div>
+            <!-- Modal para Agregar registros -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Editar País</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editForm" action="create.php" method="POST">
+
+                                <div class="form-group col-md-3">
+                                    <input type="text" id="editCve_pais" name="cve_pais" class="form-control"
+                                        placeholder="Clave del País" required = "true">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="text" id="descripcion" name="descripcion" class="form-control"
+                                        placeholder="Descripción" required>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <input type="text" id="codigo" name="codigo" class="form-control"
+                                        placeholder="Código" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="text" id="cve_continente" name="cve_continente" class="form-control"
+                                        placeholder="Clave del Continente" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -53,4 +105,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

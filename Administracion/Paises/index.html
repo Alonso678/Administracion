@@ -10,6 +10,21 @@
 <body class="bg-light">
     <div class="container">
         <h1 class="text-center my-4">Administración de Países</h1>
+        <table id="countryTable" class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Clave</th>
+                    <th>Descripción</th>
+                    <th>Código</th>
+                    <th>Continente</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Países se cargarán aquí -->
+            </tbody>
+        </table>
         <form id="countryForm" class="mb-4">
             <div class="form-row">
                 <div class="form-group col-md-3">
@@ -29,21 +44,6 @@
                 </div>
             </div>
         </form>
-        <table id="countryTable" class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Clave</th>
-                    <th>Descripción</th>
-                    <th>Código</th>
-                    <th>Continente</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Países se cargarán aquí -->
-            </tbody>
-        </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

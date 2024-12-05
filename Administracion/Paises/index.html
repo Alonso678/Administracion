@@ -13,16 +13,16 @@
         <table id="countryTable" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
+                    <th><input type="checkbox" id="selectAll"></th> <!-- Checkbox para seleccionar todos -->
                     <th>ID</th>
                     <th>Clave</th>
                     <th>Descripción</th>
                     <th>Código</th>
                     <th>Continente</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Países se cargarán aquí -->
+                <!-- Más filas se cargarán aquí -->
             </tbody>
         </table>
         <form id="countryForm" class="mb-4">
@@ -40,6 +40,9 @@
                     <input type="text" id="cve_continente" class="form-control" placeholder="Clave del Continente" required>
                 </div>
                 <div class="form-group col-md-1">
+                    <!-- Botones de acción -->
+                    <button class="btn btn-warning btn-sm">Editar</button>
+                    <button class="btn btn-danger btn-sm">Eliminar</button>
                     <button type="submit" class="btn btn-primary">Agregar</button>
                 </div>
             </div>

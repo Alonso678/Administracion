@@ -11,15 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.forEach(country => {
                     const row = countryTable.insertRow();
                     row.innerHTML = `
+                        <td><input type="checkbox" class="select-row"></td>
                         <td>${country.PAIS_KEY}</td>
                         <td>${country.CVE_PAIS}</td>
                         <td>${country.DESCRIPCION}</td>
                         <td>${country.CODIGO}</td>
                         <td>${country.CVE_CONTINENTE}</td>
-                        <td>
-                            <button onclick="editCountry(${country.PAIS_KEY})">Editar</button>
-                            <button onclick="deleteCountry(${country.PAIS_KEY})">Eliminar</button>
-                        </td>
                     `;
                 });
             });

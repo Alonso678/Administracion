@@ -1,7 +1,7 @@
 <?php
 include 'conexion.php';
 
-$sql = "SELECT * FROM paises";
+$sql = "SELECT * FROM ad_paises";
 $result = $conn->query($sql);
 
 $paises = array();

@@ -36,36 +36,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetchCountries();
                 countryForm.reset();
             });
+            console.log(formData);
     });
 
-    // Edit country
+    // Add country
 
-    document.addEventListener('DOMContentLoaded', function () {
-        // Asumiendo que los botones de edición tienen la clase 'edit-btn'
-        const editButtons = document.querySelectorAll('.edit-btn');
+    /*document.addEventListener('DOMContentLoaded', function () {
+        // Asumiendo que los botones de edición tienen la clase 'add-btn'
+        const addButtons = document.querySelectorAll('.add-btn');
 
-        editButtons.forEach(button => {
+        addButtons.forEach(button => {
             button.addEventListener('click', function () {
                 // Obtener el id del registro a editar
                 const id = this.getAttribute('data-id');
 
                 // Obtener la fila correspondiente
                 const row = document.querySelector(`tr[data-id='${id}']`);
+                console.log(id);
 
                 // Obtener los datos de la fila
-                const cvePais = row.querySelector('.cve_pais').textContent;
-                const descripcion = row.querySelector('.descripcion').textContent;
-                const codigo = row.querySelector('.codigo').textContent;
-                const cveContinente = row.querySelector('.cve_continente').textContent;
+                const cvePais = row.querySelector('.addCve_pais').textContent;
+                const descripcion = row.querySelector('.addDescripcion').textContent;
+                const codigo = row.querySelector('.addCodigo').textContent;
+                const cveContinente = row.querySelector('.addContinente').textContent;
+                console.log(cvePais);
+                console.log(descripcion);
+                console.log(codigo);
+                console.log(cveContinente);
+
 
                 // Rellenar los campos del modal
-                document.getElementById('editClave').value = cvePais;
-                document.getElementById('editDescripcion').value = descripcion;
-                document.getElementById('editCodigo').value = codigo;
-                document.getElementById('editContinente').value = cveContinente;
+                document.getElementById('addCve_pais').value = cvePais;
+                document.getElementById('addDescripcion').value = descripcion;
+                document.getElementById('addCodigo').value = codigo;
+                document.getElementById('addContinente').value = cveContinente;
             });
         });
-    });
+    });*/
 
 
 

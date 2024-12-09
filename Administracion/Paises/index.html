@@ -15,8 +15,8 @@
         <table id="countryTable" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <td><input type="checkbox" class="select-row" data-id="data-id"></td>
-                    <!-- Checkbox para seleccionar todos -->
+                    <th>Seleccionar</th>
+                    <th>ID</th>
                     <th>Pais</th>
                     <th>Clave</th>
                     <th>Descripcion</th>
@@ -28,79 +28,115 @@
                 <!-- Más filas se cargarán aquí -->
             </tbody>
         </table>
-        <form id="countryForm" class="mb-4">
-            <div class="form-row">
-                <div class="form-group col-md-1">
-                    <!-- Botones de acción -->
-                    <button class="btn btn-warning edit-btn" data-id="id" data-toggle="modal"
-                        data-target="#addModal">Editar</button>
+        <div class="d-flex justify-content-end mb-4">
+            <button id="editButton" class="btn btn-warning mr-2" data-toggle="modal"
+                data-target="#editModal">Editar</button>
+            <button id="deleteSelectedBtn" class="btn btn-danger">Eliminar Seleccionados</button>
+            <button id="openModalButton" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#addModal">Agregar</button>
+        </div>
 
-                    <button id="deleteSelectedBtn" class="btn btn-danger">Eliminar Seleccionados</button>
-
-                    <!-- Botón para abrir el modal -->
-                    <button id="openModalButton" type="button" class="btn btn-primary add-btn" data-id="1"
-                        data-toggle="modal" data-target="#addModal">Agregar</button>
-                </div>
-            </div>
-            <!-- Modal para Agregar registros -->
-            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addModalLabel">Agregar País</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="addForm" action="create.php" method="POST">
-
-                                <div class="form-group col-md-3">
-                                    <input type="text" id="addCve_pais" name="cve_pais" class="form-control"
-                                        placeholder="Clave del País" required="true">
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <input type="text" id="descripcion" name="descripcion" class="form-control"
-                                        placeholder="Descripción" required>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <input type="text" id="codigo" name="codigo" class="form-control"
-                                        placeholder="Código" required>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <input type="text" id="cve_continente" name="cve_continente" class="form-control"
-                                        placeholder="Clave del Continente" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </form>
-                        </div>
+        <!-- Modal para Agregar registros -->
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Agregar País</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addForm" action="create.php" method="POST">
+                            <div class="form-group">
+                                <label for="addCve_pais">Clave del País</label>
+                                <input type="text" id="addCve_pais" name="cve_pais" class="form-control"
+                                    placeholder="Clave del País" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addDescripcion">Descripción</label>
+                                <input type="text" id="addDescripcion" name="descripcion" class="form-control"
+                                    placeholder="Descripción" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addCodigo">Código</label>
+                                <input type="text" id="addCodigo" name="codigo" class="form-control"
+                                    placeholder="Código" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addCve_continente">Clave del Continente</label>
+                                <input type="text" id="addCve_continente" name="cve_continente" class="form-control"
+                                    placeholder="Clave del Continente" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Modal de Confirmación de Eliminación -->
-            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ¿Estás seguro de que deseas eliminar los registros seleccionados?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
-                        </div>
+        <!-- Modal para Editar registros -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Editar País</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <!-- Campo oculto para el ID del registro -->
+                            <input type="hidden" id="editId" name=" pais_key">
+                            <div class="form-group">
+                                <label for="editClave">Clave del País</label>
+                                <input type="text" id="editClave" class="form-control" name="clave_pais" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editDescripcion">Descripción</label>
+                                <input type="text" id="editDescripcion" class="form-control" name="descripcion"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCodigo">Código</label>
+                                <input type="text" id="editCodigo" class="form-control" name="codigo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editContinente">Clave del Continente</label>
+                                <input type="text" id="editContinente" class="form-control" name="cve_continente"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
-        </form>
+
+        <!-- Modal de Confirmación de Eliminación -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas eliminar los registros seleccionados?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

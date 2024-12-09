@@ -1,17 +1,25 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const countryForm = document.getElementById('countryForm');
-    const countryTable = document.getElementById('countryTable').getElementsByTagName('tbody')[0];
+document.addEventListener('DOMContentLoaded', function() {
+    const addForm = document.getElementById('addForm');
+    const editForm = document.getElementById('editForm');
+    const countryTableBody = document.getElementById('countryTable').getElementsByTagName('tbody')[0];
+    const editButton = document.getElementById('editButton');
+    const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-    // Fetch countries
     function fetchCountries() {
         fetch('read.php')
-            .then(response => response.json())
-            .then(data => {
-                countryTable.innerHTML = '';
-                data.forEach(country => {
-                    const row = countryTable.insertRow();
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la red');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                countryTableBody.innerHTML = ''; // Limpia la tabla antes de agregar nuevos datos
+                data.forEach(function(country) {
+                    const row = countryTableBody.insertRow();
                     row.innerHTML = `
-                        <td><input type="checkbox" class="select-row"></td>
+                        <td><input type="checkbox" data-id="${country.PAIS_KEY}"></td>
                         <td>${country.PAIS_KEY}</td>
                         <td>${country.CVE_PAIS}</td>
                         <td>${country.DESCRIPCION}</td>
@@ -19,72 +27,118 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>${country.CVE_CONTINENTE}</td>
                     `;
                 });
+            })
+            .catch(function(error) {
+                console.error('Hubo un problema con la operación fetch:', error);
             });
     }
 
-    // Add new country
-    countryForm.addEventListener('submit', function (event) {
+    // Llama a fetchCountries al cargar la página
+    fetchCountries();
+
+    // Agrega un país nuevo al enviar el formulario
+    addForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        const formData = new FormData(countryForm);
+        const formData = new FormData(addForm);
         fetch('create.php', {
             method: 'POST',
             body: formData
         })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                fetchCountries();
-                countryForm.reset();
-            });
-            console.log(formData);
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            alert(data);
+            fetchCountries();
+            addForm.reset();
+            $('#addModal').modal('hide');
+        })
+        .catch(function(error) {
+            console.error('Hubo un problema con la operación fetch:', error);
+        });
     });
 
-    document.getElementById('deleteSelectedBtn').addEventListener('click', function() {
-    // Seleccionar todos los checkboxes que están marcados
-    const selectedIds = Array.from(document.querySelectorAll('.select-row:checked'))
-        .map(checkbox => checkbox.getAttribute('data-id'));
+    // Edita un país
+    editButton.addEventListener('click', function() {
+        const selectedCheckbox = document.querySelector('input[type="checkbox"]:checked');
+        if (selectedCheckbox) {
+            const id = selectedCheckbox.getAttribute('data-id');
+            fetch(`getCountry.php?id=${id}`)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        document.getElementById('editId').value = data.PAIS_KEY;
+                        document.getElementById('editClave').value = data.CVE_PAIS;
+                        document.getElementById('editDescripcion').value = data.DESCRIPCION;
+                        document.getElementById('editCodigo').value = data.CODIGO;
+                        document.getElementById('editContinente').value = data.CVE_CONTINENTE;
+                        $('#editModal').modal('show');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+        } else {
+            alert('Por favor, selecciona un país para editar.');
+        }
+    });
 
-        console.log(selectedIds);
+    // Actualiza un país
+    editForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(editForm);
+        fetch('update.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            alert(data);
+            fetchCountries();
+            $('#editModal').modal('hide');
+        })
+        .catch(function(error) {
+            console.error('Hubo un problema con la operación fetch:', error);
+        });
+    });
 
-    // Verificar si hay al menos un checkbox seleccionado
-    if (selectedIds.length === 0) {
-        alert('Por favor, selecciona al menos un registro para eliminar.');
-        return;
-    }
+    // Elimina un país
+    deleteSelectedBtn.addEventListener('click', function() {
+        const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        if (selectedCheckboxes.length > 0) {
+            $('#confirmDeleteModal').modal('show');
+        } else {
+            alert('Por favor, selecciona al menos un país para eliminar.');
+        }
+    });
 
-    // Mostrar el modal de confirmación
-    $('#confirmDeleteModal').modal('show');
-
-    // Manejar la confirmación de eliminación
-    document.getElementById('confirmDeleteBtn').onclick = function() {
-        $('#confirmDeleteModal').modal('hide');
+    confirmDeleteBtn.addEventListener('click', function() {
+        const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        const ids = Array.from(selectedCheckboxes).map(cb => cb.getAttribute('data-id')).join(',');
 
         fetch('delete.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({ pais_keys: selectedIds })
+            body: `id=${ids}`
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Registros eliminados exitosamente.');
-                // Eliminar las filas correspondientes de la tabla
-                selectedIds.forEach(id => {
-                    const checkbox = document.querySelector(`.registro-checkbox[data-id="${id}"]`);
-                    if (checkbox) {
-                        checkbox.closest('tr').remove();
-                    }
-                });
-            } else {
-                alert('Error al eliminar los registros.');
-            }
+        .then(function(response) {
+            return response.text();
         })
-        .catch(error => console.error('Error:', error));
-    };
-});
-
-    // Initially fetch countries
-    fetchCountries();
+        .then(function(data) {
+            alert(data);
+            fetchCountries();
+            $('#confirmDeleteModal').modal('hide');
+        })
+        .catch(function(error) {
+            console.error('Hubo un problema con la operación fetch:', error);
+        });
+    });
 });

@@ -1,9 +1,9 @@
 <?php
 include 'conexion.php';
 
-$pais_key = $_POST['pais_key'];
+$pais_key = $_POST['id'];
 
-$sql = "DELETE FROM paises WHERE PAIS_KEY=$pais_key";
+$sql = "DELETE FROM ad_paises WHERE PAIS_KEY=$pais_key";
 
 if ($conn->query($sql) === TRUE) {
     echo "País eliminado exitosamente";

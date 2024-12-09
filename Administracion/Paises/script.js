@@ -39,69 +39,51 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(formData);
     });
 
-    // Add country
+    document.getElementById('deleteSelectedBtn').addEventListener('click', function() {
+    // Seleccionar todos los checkboxes que están marcados
+    const selectedIds = Array.from(document.querySelectorAll('.select-row:checked'))
+        .map(checkbox => checkbox.getAttribute('data-id'));
 
-    /*document.addEventListener('DOMContentLoaded', function () {
-        // Asumiendo que los botones de edición tienen la clase 'add-btn'
-        const addButtons = document.querySelectorAll('.add-btn');
+        console.log(selectedIds);
 
-        addButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                // Obtener el id del registro a editar
-                const id = this.getAttribute('data-id');
+    // Verificar si hay al menos un checkbox seleccionado
+    if (selectedIds.length === 0) {
+        alert('Por favor, selecciona al menos un registro para eliminar.');
+        return;
+    }
 
-                // Obtener la fila correspondiente
-                const row = document.querySelector(`tr[data-id='${id}']`);
-                console.log(id);
+    // Mostrar el modal de confirmación
+    $('#confirmDeleteModal').modal('show');
 
-                // Obtener los datos de la fila
-                const cvePais = row.querySelector('.addCve_pais').textContent;
-                const descripcion = row.querySelector('.addDescripcion').textContent;
-                const codigo = row.querySelector('.addCodigo').textContent;
-                const cveContinente = row.querySelector('.addContinente').textContent;
-                console.log(cvePais);
-                console.log(descripcion);
-                console.log(codigo);
-                console.log(cveContinente);
+    // Manejar la confirmación de eliminación
+    document.getElementById('confirmDeleteBtn').onclick = function() {
+        $('#confirmDeleteModal').modal('hide');
 
-
-                // Rellenar los campos del modal
-                document.getElementById('addCve_pais').value = cvePais;
-                document.getElementById('addDescripcion').value = descripcion;
-                document.getElementById('addCodigo').value = codigo;
-                document.getElementById('addContinente').value = cveContinente;
-            });
-        });
-    });*/
-
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('deleteSelectedBtn').addEventListener('click', function () {
-            const selectedCheckboxes = document.querySelectorAll('.select-row:checked');
-            const idsToDelete = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-id'));
-            // Delete country
-            if (idsToDelete.length > 0) {
-                if (confirm('¿Estás seguro de que deseas eliminar los países seleccionados?')) {
-                    fetch('delete.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `pais_keys=${idsToDelete.join(',')}`
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data);
-                            fetchCountries();
-                        })
-                        .catch(error => console.error('Error al cargar los datos:', error));
-                }
+        fetch('delete.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ pais_keys: selectedIds })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Registros eliminados exitosamente.');
+                // Eliminar las filas correspondientes de la tabla
+                selectedIds.forEach(id => {
+                    const checkbox = document.querySelector(`.registro-checkbox[data-id="${id}"]`);
+                    if (checkbox) {
+                        checkbox.closest('tr').remove();
+                    }
+                });
             } else {
-                alert('Por favor, selecciona al menos un país para eliminar.');
+                alert('Error al eliminar los registros.');
             }
-        });
-    });
+        })
+        .catch(error => console.error('Error:', error));
+    };
+});
 
     // Initially fetch countries
     fetchCountries();

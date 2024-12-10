@@ -1,7 +1,7 @@
 <?php
 include 'conexion.php';
 
-$pais_key = $_POST['id']; // Asegúrate de que el nombre del campo coincide con el del formulario
+$pais_key = $_POST['pais_key']; // Asegúrate de que el nombre del campo coincide con el del formulario
 $cve_pais = $_POST['clave_pais'];
 $descripcion = $_POST['descripcion'];
 $codigo = $_POST['codigo'];

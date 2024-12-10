@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td>${country.CODIGO}</td>
                         <td>${country.CVE_CONTINENTE}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm edit-row-btn" data-id="${country.PAIS_KEY}" data-toggle="modal" data-target="#editModal">Editar</button>
-                            <button class="btn btn-danger btn-sm delete-row-btn" data-id="${country.PAIS_KEY}" data-toggle="modal" data-target="#confirmDeleteModal">Eliminar</button>
+                            <button class="btn btn-warning btn-animado-edit mr-2 edit-row-btn" data-id="${country.PAIS_KEY}" data-toggle="modal" data-target="#editModal">Editar</button>
+                            <button class="btn btn-danger btn-animado-del mr-2 delete-row-btn" data-id="${country.PAIS_KEY}" data-toggle="modal" data-target="#confirmDeleteModal">Eliminar</button>
                         </td>
                     `;
                 });

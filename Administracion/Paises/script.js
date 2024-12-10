@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const addForm = document.getElementById('addForm');
     const editForm = document.getElementById('editForm');
     const countryTableBody = document.getElementById('countryTable').getElementsByTagName('tbody')[0];
@@ -8,15 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function fetchCountries() {
         fetch('read.php')
-            .then(function(response) {
+            .then(function (response) {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la red');
                 }
                 return response.json();
             })
-            .then(function(data) {
+            .then(function (data) {
                 countryTableBody.innerHTML = ''; // Limpia la tabla antes de agregar nuevos datos
-                data.forEach(function(country) {
+                data.forEach(function (country) {
                     const row = countryTableBody.insertRow();
                     row.innerHTML = `
                         <td><input type="checkbox" data-id="${country.PAIS_KEY}"></td>
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.error('Hubo un problema con la operación fetch:', error);
             });
     }
@@ -37,37 +37,37 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchCountries();
 
     // Agrega un país nuevo al enviar el formulario
-    addForm.addEventListener('submit', function(event) {
+    addForm.addEventListener('submit', function (event) {
         event.preventDefault();
         const formData = new FormData(addForm);
         fetch('create.php', {
             method: 'POST',
             body: formData
         })
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(data) {
-            alert(data);
-            fetchCountries();
-            addForm.reset();
-            $('#addModal').modal('hide');
-        })
-        .catch(function(error) {
-            console.error('Hubo un problema con la operación fetch:', error);
-        });
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (data) {
+                alert(data);
+                fetchCountries();
+                addForm.reset();
+                $('#addModal').modal('hide');
+            })
+            .catch(function (error) {
+                console.error('Hubo un problema con la operación fetch:', error);
+            });
     });
 
     // Edita un país
-    editButton.addEventListener('click', function() {
+    editButton.addEventListener('click', function () {
         const selectedCheckbox = document.querySelector('input[type="checkbox"]:checked');
         if (selectedCheckbox) {
             const id = selectedCheckbox.getAttribute('data-id');
             fetch(`getCountry.php?id=${id}`)
-                .then(function(response) {
+                .then(function (response) {
                     return response.json();
                 })
-                .then(function(data) {
+                .then(function (data) {
                     if (data.error) {
                         alert(data.error);
                     } else {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         $('#editModal').modal('show');
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.error('Error:', error);
                 });
         } else {
@@ -88,28 +88,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Actualiza un país
-    editForm.addEventListener('submit', function(event) {
+    editForm.addEventListener('submit', function (event) {
         event.preventDefault();
         const formData = new FormData(editForm);
         fetch('update.php', {
             method: 'POST',
             body: formData
         })
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(data) {
-            alert(data);
-            fetchCountries();
-            $('#editModal').modal('hide');
-        })
-        .catch(function(error) {
-            console.error('Hubo un problema con la operación fetch:', error);
-        });
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (data) {
+                alert(data);
+                fetchCountries();
+                $('#editModal').modal('hide');
+            })
+            .catch(function (error) {
+                console.error('Hubo un problema con la operación fetch:', error);
+            });
     });
 
     // Elimina un país
-    deleteSelectedBtn.addEventListener('click', function() {
+    deleteSelectedBtn.addEventListener('click', function () {
         const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         if (selectedCheckboxes.length > 0) {
             $('#confirmDeleteModal').modal('show');
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    confirmDeleteBtn.addEventListener('click', function() {
+    confirmDeleteBtn.addEventListener('click', function () {
         const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         const ids = Array.from(selectedCheckboxes).map(cb => cb.getAttribute('data-id')).join(',');
 
@@ -129,16 +129,41 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: `id=${ids}`
         })
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(data) {
-            alert(data);
-            fetchCountries();
-            $('#confirmDeleteModal').modal('hide');
-        })
-        .catch(function(error) {
-            console.error('Hubo un problema con la operación fetch:', error);
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (data) {
+                alert(data);
+                fetchCountries();
+                $('#confirmDeleteModal').modal('hide');
+            })
+            .catch(function (error) {
+                console.error('Hubo un problema con la operación fetch:', error);
+            });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        const checkboxes = document.querySelectorAll('.registro-checkbox');
+
+        // Función para actualizar el estado del checkbox de la cabecera
+        function updateSelectAllCheckbox() {
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+            selectAllCheckbox.checked = allChecked;
+        }
+
+        // Evento para el checkbox de la cabecera
+        selectAllCheckbox.addEventListener('change', function () {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // Evento para cada checkbox individual
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                updateSelectAllCheckbox();
+            });
         });
     });
 });

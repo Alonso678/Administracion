@@ -1,77 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<style>
-    .checkbox-cell {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    table {
-        width: 100%;
-        /* Asegura que la tabla ocupe todo el ancho disponible */
-        border-collapse: collapse;
-        /* Elimina los espacios entre bordes de celdas */
-    }
-
-    th,
-    td {
-        text-align: center;
-        /* Centra el contenido horizontalmente */
-        vertical-align: middle;
-        /* Centra el contenido verticalmente */
-        padding: 8px;
-        /* Añade un poco de espacio interior */
-        border: 1px solid #ddd;
-        /* Añade un borde para mayor claridad */
-    }
-
-    .checkbox-cell {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    /* Alinear solo la columna "Descripción" a la izquierda */
-    td:nth-child(4),
-    th:nth-child(4) {
-        text-align: left;
-    }
-</style>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración de Países</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .checkbox-cell {
+            text-align: center;
+            vertical-align: middle;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        td:nth-child(4), th:nth-child(4) {
+            text-align: left;
+        }
+    </style>
 </head>
-
 <body class="bg-light">
     <div class="container">
         <h1 class="text-center my-4">Administración de Países</h1>
         <table id="countryTable" class="table table-striped">
             <thead class="checkbox-cell">
                 <tr>
-            <th class="checkbox-cell">
-                <input type="checkbox" id="selectAllCheckbox">
-            </th>
-            <th>ID</th>
-            <th>Clave</th>
-            <th>Descripcion</th>
-            <th>Codigo</th>
-            <th>Continente</th>
-        </tr>
+                    <th class="checkbox-cell">
+                        <input type="checkbox" id="selectAllCheckbox">
+                    </th>
+                    <th>ID</th>
+                    <th>Clave</th>
+                    <th>Descripcion</th>
+                    <th>Codigo</th>
+                    <th>Continente</th>
+                    <th>Acciones</th>
+                </tr>
             </thead>
             <tbody>
                 <!-- Más filas se cargarán aquí -->
             </tbody>
         </table>
         <div class="d-flex justify-content-end mb-4">
-            <button id="editButton" class="btn btn-warning mr-2" data-toggle="modal"
-                data-target="#editModal">Editar</button>
-            <button id="deleteSelectedBtn" class="btn btn-danger">Eliminar Seleccionados</button>
-            <button id="openModalButton" type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#addModal">Agregar</button>
+            <button id="openModalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Agregar</button>
         </div>
 
         <!-- Modal para Agregar registros -->
@@ -88,23 +65,19 @@
                         <form id="addForm" action="create.php" method="POST">
                             <div class="form-group">
                                 <label for="addCve_pais">Clave del País</label>
-                                <input type="text" id="addCve_pais" name="cve_pais" class="form-control"
-                                    placeholder="Clave del País" required>
+                                <input type="text" id="addCve_pais" name="cve_pais" class="form-control" placeholder="Clave del País" required>
                             </div>
                             <div class="form-group">
                                 <label for="addDescripcion">Descripción</label>
-                                <input type="text" id="addDescripcion" name="descripcion" class="form-control"
-                                    placeholder="Descripción" required>
+                                <input type="text" id="addDescripcion" name="descripcion" class="form-control" placeholder="Descripción" required>
                             </div>
                             <div class="form-group">
                                 <label for="addCodigo">Código</label>
-                                <input type="text" id="addCodigo" name="codigo" class="form-control"
-                                    placeholder="Código" required>
+                                <input type="text" id="addCodigo" name="codigo" class="form-control" placeholder="Código" required>
                             </div>
                             <div class="form-group">
                                 <label for="addCve_continente">Clave del Continente</label>
-                                <input type="text" id="addCve_continente" name="cve_continente" class="form-control"
-                                    placeholder="Clave del Continente" required>
+                                <input type="text" id="addCve_continente" name="cve_continente" class="form-control" placeholder="Clave del Continente" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
@@ -133,8 +106,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="editDescripcion">Descripción</label>
-                                <input type="text" id="editDescripcion" class="form-control" name="descripcion"
-                                    required>
+                                <input type="text" id="editDescripcion" class="form-control" name="descripcion" required>
                             </div>
                             <div class="form-group">
                                 <label for="editCodigo">Código</label>
@@ -142,8 +114,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="editContinente">Clave del Continente</label>
-                                <input type="text" id="editContinente" class="form-control" name="cve_continente"
-                                    required>
+                                <input type="text" id="editContinente" class="form-control" name="cve_continente" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         </form>
@@ -152,11 +123,8 @@
             </div>
         </div>
 
-
-
         <!-- Modal de Confirmación de Eliminación -->
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -166,7 +134,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        ¿Estás seguro de que deseas eliminar los registros seleccionados?
+                        ¿Estás seguro de que deseas eliminar el registro seleccionado?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -182,5 +150,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>

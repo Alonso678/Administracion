@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const addForm = document.getElementById('addForm');
     const editForm = document.getElementById('editForm');
     const countryTableBody = document.getElementById('countryTable').getElementsByTagName('tbody')[0];
-    const editButton = document.getElementById('editButton');
     const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
     const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
@@ -19,15 +18,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.forEach(function(country) {
                     const row = countryTableBody.insertRow();
                     row.innerHTML = `
-                        <td><input type="checkbox" data-id="${country.PAIS_KEY}"></td>
-                        <td>${country.PAIS_KEY}</td>
-                        <td>${country.CVE_PAIS}</td>
-                        <td>${country.DESCRIPCION}</td>
-                        <td>${country.CODIGO}</td>
-                        <td>${country.CVE_CONTINENTE}</td>
+                        <td><input type="checkbox" data-id="${country.pais_key}"></td>
+                        <td>${country.pais_key}</td>
+                        <td>${country.clave_desc}</td>
+                        <td>${country.descripcion}</td>
+                        <td>${country.codigo}</td>
+                        <td>${country.cve_continente}</td>
                         <td>
-                            <button class="btn btn-warning btn-animado-edit mr-2 edit-row-btn" data-id="${country.PAIS_KEY}" data-toggle="modal" data-target="#editModal">Editar</button>
-                            <button class="btn btn-danger btn-animado-del mr-2 delete-row-btn" data-id="${country.PAIS_KEY}" data-toggle="modal" data-target="#confirmDeleteModal">Eliminar</button>
+                            <button class="btn btn-warning btn-animado-edit mr-2 edit-row-btn" data-id="${country.pais_key}" data-toggle="modal" data-target="#editModal">Editar</button>
+                            <button class="btn btn-danger btn-animado-del mr-2 delete-row-btn" data-id="${country.pais_key}" data-toggle="modal" data-target="#confirmDeleteModal">Eliminar</button>
                         </td>
                     `;
                 });
@@ -74,11 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.error) {
                         alert(data.error);
                     } else {
-                        document.getElementById('editId').value = data.PAIS_KEY;
-                        document.getElementById('editClave').value = data.CVE_PAIS;
-                        document.getElementById('editDescripcion').value = data.DESCRIPCION;
-                        document.getElementById('editCodigo').value = data.CODIGO;
-                        document.getElementById('editContinente').value = data.CVE_CONTINENTE;
+                        document.getElementById('editId').value = data.pais_key;
+                        document.getElementById('editClave').value = data.clave_desc;
+                        document.getElementById('editdescripcion').value = data.descripcion;
+                        document.getElementById('editCodigo').value = data.codigo;
+                        document.getElementById('editContinente').value = data.cve_continente;
                         $('#editModal').modal('show');
                     }
                 })

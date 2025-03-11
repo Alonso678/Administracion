@@ -2,12 +2,12 @@
 include 'conexion.php';
 
 $pais_key = $_POST['pais_key']; // Asegúrate de que el nombre del campo coincide con el del formulario
-$cve_pais = $_POST['clave_pais'];
+$clave_desc = $_POST['cve_pais'];
 $descripcion = $_POST['descripcion'];
 $codigo = $_POST['codigo'];
 $cve_continente = $_POST['cve_continente'];
 
-$sql = "UPDATE ad_paises SET CVE_PAIS='$cve_pais', DESCRIPCION='$descripcion', CODIGO='$codigo', CVE_CONTINENTE='$cve_continente' WHERE PAIS_KEY=$pais_key";
+$sql = "UPDATE ad_paises SET clave_desc='$clave_desc', descripcion='$descripcion', codigo='$codigo', cve_continente='$cve_continente' WHERE pais_key=$pais_key";
 
 if ($conn->query($sql) === TRUE) {
     echo "País actualizado exitosamente";

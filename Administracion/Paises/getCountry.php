@@ -5,7 +5,7 @@ $id = $_GET['id'];
 
 // Verifica si el ID está definido y no está vacío
 if (isset($id) && !empty($id)) {
-    $sql = "SELECT * FROM ad_paises WHERE PAIS_KEY = $id";
+    $sql = "SELECT * FROM ad_paises WHERE pais_key = $id";
     $result = $conn->query($sql);
 
     if ($result) {

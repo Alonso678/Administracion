@@ -14,7 +14,7 @@ Bootstrap
 Requisitos Previos
 Tener instalado un servidor local (XAMPP, WAMP o equivalente).
 
-Base de datos configurada (DATABASE_ADMINISTRACION).
+Base de datos configurada (conexion.php).
 
 Navegador web actualizado.
 
@@ -22,18 +22,18 @@ Instalación
 Clona este repositorio:
 
 git clone https://github.com/Alonso678/Administracion.git
-Coloca los archivos en el directorio raíz de tu servidor (ej. htdocs en XAMPP).
+Coloca los archivos en el directorio raíz de tu servidor ( htdocs en XAMPP).
 
-Importa el archivo SQL incluido en la carpeta database para configurar la base de datos. (DATABASE_ADMINISTRACION)
+Importa el archivo SQL incluido en la carpeta database para configurar la base de datos. (ad_paises.sql)
 
-Ajusta las credenciales de la base de datos en el archivo de configuración (ej. config.php).
+Ajusta las credenciales de la base de datos en el archivo de configuración (conexion.php).
 
 Uso
-Abre tu navegador y accede a http://localhost/Administracion/Administracion/Paises/.
+Abre tu navegador y accede a http://localhost/Administracion/Administracion/Paises/index.html
 
 Sigue las instrucciones de la interfaz para interactuar con la aplicación.
 
-/DATABASE_ADMINISTRACION: Archivos SQL para la base de datos.
+ad_paise.sql: Archivos SQL para la base de datos.
 
 Archivos PHP principales en el directorio raíz.
 

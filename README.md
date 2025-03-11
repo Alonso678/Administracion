@@ -21,7 +21,7 @@ Navegador web actualizado.
 Instalación
 Clona este repositorio:
 
-git clone https://github.com/tuusuario/nombre-proyecto.git
+git clone https://github.com/Alonso678/Administracion/tree/main/Administracion/Paises
 Coloca los archivos en el directorio raíz de tu servidor (ej. htdocs en XAMPP).
 
 Importa el archivo SQL incluido en la carpeta database para configurar la base de datos. (DATABASE_ADMINISTRACION)

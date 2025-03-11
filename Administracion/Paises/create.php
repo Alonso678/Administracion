@@ -1,12 +1,12 @@
 <?php
 include 'conexion.php';
 
-$cve_pais = $_POST['cve_pais'];
+$clave_desc = $_POST['clave_desc'];
 $descripcion = $_POST['descripcion'];
 $codigo = $_POST['codigo'];
 $cve_continente = $_POST['cve_continente'];
 
-$sql = "INSERT INTO ad_paises (CVE_PAIS, DESCRIPCION, CODIGO, CVE_CONTINENTE) VALUES ('$cve_pais', '$descripcion', '$codigo', '$cve_continente')";
+$sql = "INSERT INTO ad_paises (clave_desc, descripcion, codigo, CVE_CONTINENTE) VALUES ('$clave_desc', '$descripcion', '$codigo', '$cve_continente')";
 
 if ($conn->query($sql) === TRUE) {
     echo "Nuevo país creado exitosamente";
